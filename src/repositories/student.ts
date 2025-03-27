@@ -51,9 +51,9 @@ export default class StudentRepository {
       throw error
     }
   }
-  async editStudentByEnrollment({ name, enrollment, course }: Student): Promise<Student[]> {
+  async editStudentByEnrollment({ name, enrollment, course }: Student, enrollmentToEdit: string): Promise<Student[]> {
     try {
-      const student = await this.getStudentByEnrollment(enrollment)
+      const student = await this.getStudentByEnrollment(enrollmentToEdit)
 
       const indexToBeEdited = studentsTable.indexOf(student)
 
@@ -64,13 +64,13 @@ export default class StudentRepository {
     }
   }
 
-  async patchStudentCourse(enrollment: string, course: Course): Promise<Student[]> {
+  async patchStudentCourse(enrollmentToEdit: string, course: Course): Promise<Student[]> {
     try {
-      const student = await this.getStudentByEnrollment(enrollment)
+      const student = await this.getStudentByEnrollment(enrollmentToEdit)
 
       const indexToBeEdited = studentsTable.indexOf(student)
 
-      studentsTable[indexToBeEdited] = { ...studentsTable[indexToBeEdited], enrollment, course }
+      studentsTable[indexToBeEdited] = { ...studentsTable[indexToBeEdited], course }
       return studentsTable
     } catch (error) {
       throw error

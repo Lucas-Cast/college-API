@@ -38,18 +38,19 @@ export default class StudentController {
 
   async editStudentByEnrollment(req: Request, res: Response) {
     const { name, enrollment, course } = req.body
+    const { enrollmentToEdit } = req.query
 
     await new StudentService()
-      .editStudentByEnrollment({ name, enrollment, course })
+      .editStudentByEnrollment({ name, enrollment, course }, enrollmentToEdit as string)
       .then(msg => res.status(200).send(msg))
       .catch(err => res.status(400).send(err))
   }
 
   async patchStudentCourse(req: Request, res: Response) {
-    const { enrollment, course } = req.body
-
+    const { course } = req.body
+    const { enrollmentToEdit } = req.query
     await new StudentService()
-      .patchStudentCourse(enrollment, course)
+      .patchStudentCourse(enrollmentToEdit as string, course)
       .then(msg => res.status(200).send(msg))
       .catch(err => res.status(400).send(err))
   }
