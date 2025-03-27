@@ -5,17 +5,27 @@
 ## endpoints:
 # students 
 /student/add-student
+
 /student/get-student-by-enrollment?enrollment=
+
 /student/get-students
+
 /student/delete-student-by-enrollment?enrollment=
+
 /student/edit-student-by-enrollment?enrollmentToEdit=
+
 /student/patch-student-course?enrollmentToEdit=
 # courses
 /course/add-course
+
 /course/get-course-by-code?code=
+
 /course/get-courses
+
 /course/delete-course-by-code?code=
+
 /course/edit-course-by-code?codeToEdit=
+
 /course/patch-course-name?codeToEdit=
 
 
