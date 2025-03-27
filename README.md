@@ -1,6 +1,6 @@
 ### Rodar a api
-## npm install 
-## npm start 
+# npm install 
+# npm start 
 
 ## endpoints:
 # students 
