@@ -2,7 +2,7 @@ import database from '../database'
 import { Course } from '../models/course'
 import { Student } from '../models/student'
 
-const studentsTable = database.students
+let studentsTable = database.students
 
 export default class StudentRepository {
   addStudent({ name, enrollment, course }: Student): Promise<string> {
@@ -43,9 +43,8 @@ export default class StudentRepository {
     try {
       const student = await this.getStudentByEnrollment(enrollment)
 
-      const indexToBeDelete = studentsTable.indexOf(student)
+      studentsTable = studentsTable.filter(s => s !== student)
 
-      delete studentsTable[indexToBeDelete]
       return studentsTable
     } catch (error) {
       throw error
