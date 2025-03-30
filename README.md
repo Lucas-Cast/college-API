@@ -2,6 +2,8 @@
 # npm install 
 # npm start 
 
+# Use the endpoints or access http://127.0.0.1:8000/docs on browser
+
 ## endpoints:
 # students 
 /student/add-student
