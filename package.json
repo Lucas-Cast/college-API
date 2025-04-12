@@ -6,7 +6,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon --exec ts-node ./src/server.ts",
         "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,json,md}\"",
-        "migrate:latest":"npx knex migrate:latest "
+        "migrate:latest":"npx knex migrate:latest",
+        "seed:run": "npx knex seed:run"
     },
     "keywords": [],
     "author": "",
