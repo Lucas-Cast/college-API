@@ -7,15 +7,15 @@ export default class CourseController {
 
     await new CourseService()
       .addCourse({ name, syllabus, code })
-      .then(msg => res.status(200).send(msg))
+      .then(() => res.status(200).send('Course successfully added'))
       .catch(err => res.status(400).send(err))
   }
 
-  async getCourseByCode(req: Request, res: Response) {
-    const { code } = req.query
+  async getCourseById(req: Request, res: Response) {
+    const { id } = req.query
 
     await new CourseService()
-      .getCourseByCode(code as string)
+      .getCourseById(id as string)
       .then(msg => res.status(200).send(msg))
       .catch(err => res.status(400).send(err))
   }
@@ -27,31 +27,31 @@ export default class CourseController {
       .catch(err => res.status(400).send(err))
   }
 
-  async deleteCourseByCode(req: Request, res: Response) {
-    const { code } = req.query
+  async deleteCourseById(req: Request, res: Response) {
+    const { id } = req.query
 
     await new CourseService()
-      .deleteCourseByCode(code as string)
-      .then(msg => res.status(200).send(msg))
+      .deleteCourseById(id as string)
+      .then(() => res.status(200).send('Course successfully deleted'))
       .catch(err => res.status(400).send(err))
   }
 
-  async editCourseByCode(req: Request, res: Response) {
+  async editCourseById(req: Request, res: Response) {
     const { name, syllabus, code } = req.body
-    const { codeToEdit } = req.query
+    const { id } = req.query
 
     await new CourseService()
-      .editCourseByCode({ name, syllabus, code }, codeToEdit as string)
-      .then(msg => res.status(200).send(msg))
+      .editCourseById({ name, syllabus, code }, id as string)
+      .then(() => res.status(200).send('Course successfully edited'))
       .catch(err => res.status(400).send(err))
   }
 
   async patchCourseName(req: Request, res: Response) {
     const { name } = req.body
-    const { codeToEdit } = req.query
+    const { id } = req.query
     await new CourseService()
-      .patchCourseName(codeToEdit as string, name)
-      .then(msg => res.status(200).send(msg))
+      .patchCourseName(id as string, name)
+      .then(() => res.status(200).send('Course name successfully patched'))
       .catch(err => res.status(400).send(err))
   }
 }

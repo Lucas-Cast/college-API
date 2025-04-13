@@ -3,42 +3,42 @@ import CourseRepository from '../repositories/course'
 
 export default class CourseService {
   async addCourse({ name, code, syllabus }: Course): Promise<string> {
-    !name && new Error('A name must be set')
-    !code && new Error('A code must be set')
-    !syllabus && new Error('A syllabus must be set')
+    if (!name) throw new Error('A name must be set')
+    if (!code) throw new Error('A code must be set')
+    if (!syllabus) throw new Error('A syllabus must be set')
 
     return await new CourseRepository().addCourse({ name, code, syllabus })
   }
 
-  async getCourseByCode(code: string): Promise<Course> {
-    !code && new Error('A code must be set')
-
-    return await new CourseRepository().getCourseByCode(code)
+  async getCourseById(id: string): Promise<Course> {
+    if (!id) throw new Error('A id must be set')
+    //TO DO: friendly error message
+    return await new CourseRepository().getCourseById(id)
   }
 
   async getCourses(): Promise<Course[]> {
     return await new CourseRepository().getCourses()
   }
 
-  async deleteCourseByCode(code: string): Promise<Course[]> {
-    !code && new Error('A code must be set')
+  async deleteCourseById(id: string): Promise<number> {
+    if (!id) throw new Error('A id must be set')
 
-    return await new CourseRepository().deleteCourseByCode(code)
+    return await new CourseRepository().deleteCourseById(id)
   }
 
-  async editCourseByCode({ name, code, syllabus }: Course, codeToEdit: string): Promise<Course[]> {
-    !name && new Error('A name must be set')
-    !code && new Error('A code must be set')
-    !codeToEdit && new Error('A code to be edited must be set')
-    !syllabus && new Error('A syllabus must be set')
+  async editCourseById({ name, code, syllabus }: Course, id: string): Promise<number> {
+    if (!name) throw new Error('A name must be set')
+    if (!code) throw new Error('A code must be set')
+    if (!id) throw new Error('A id to be edited must be set')
+    if (!syllabus) throw new Error('A syllabus must be set')
 
-    return await new CourseRepository().editCourseByCode({ name, code, syllabus }, codeToEdit)
+    return await new CourseRepository().editCourseById({ name, code, syllabus }, id)
   }
 
-  async patchCourseName(codeToEdit: string, name: string): Promise<Course[]> {
-    !codeToEdit && new Error('A code must be set')
-    !name && new Error('A name must be set')
+  async patchCourseName(id: string, name: string): Promise<number> {
+    if (!id) throw new Error('A id must be set')
+    if (!name) throw new Error('A name must be set')
 
-    return await new CourseRepository().patchCourseName(codeToEdit, name)
+    return await new CourseRepository().patchCourseName(id, name)
   }
 }

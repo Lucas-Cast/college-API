@@ -56,19 +56,19 @@ coursesRoutes.post('/course/add-course', new CourseController().addCourse)
 
 /** 
  * @openapi
- * '/course/get-course-by-code':
+ * '/course/get-course-by-id':
  *  get:
  *     tags:
  *     - Course
- *     summary: Get course details by code
+ *     summary: Get course details by id
  *     parameters:
  *       - in: query
- *         name: code
+ *         name: id
  *         required: true
  *         schema:
  *           example: "12345"
  *           type: string
- *         description: The unique code of the course
+ *         description: The unique id of the course
  *     responses:
  *       200:
  *         description: Course details retrieved successfully
@@ -95,7 +95,7 @@ coursesRoutes.post('/course/add-course', new CourseController().addCourse)
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Course code is required"
+ *                   example: "Course id is required"
  *       404:
  *         description: Course not found
  *         content:
@@ -107,10 +107,9 @@ coursesRoutes.post('/course/add-course', new CourseController().addCourse)
  *                   type: string
  *                   example: "Course not found"
  */
-
 coursesRoutes.get(
-  '/course/get-course-by-code',
-  new CourseController().getCourseByCode
+  '/course/get-course-by-id',
+  new CourseController().getCourseById
 )
 
 /** 
@@ -154,18 +153,18 @@ coursesRoutes.get('/course/get-courses', new CourseController().getCourses)
 
 /** 
  * @openapi
- * '/course/delete-course-by-code':
+ * '/course/delete-course-by-id':
  *  delete:
  *     tags:
  *     - Course
- *     summary: Delete a course by code
+ *     summary: Delete a course by id
  *     parameters:
  *       - in: query
- *         name: code
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The unique code of the course to be deleted
+ *         description: The unique id of the course to be deleted
  *     responses:
  *       200:
  *         description: Course successfully deleted
@@ -186,7 +185,7 @@ coursesRoutes.get('/course/get-courses', new CourseController().getCourses)
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Invalid course code"
+ *                   example: "Invalid course id"
  *       404:
  *         description: Course not found
  *         content:
@@ -209,24 +208,24 @@ coursesRoutes.get('/course/get-courses', new CourseController().getCourses)
  *                   example: "An unexpected error occurred"
  */
 coursesRoutes.delete(
-  '/course/delete-course-by-code',
-  new CourseController().deleteCourseByCode
+  '/course/delete-course-by-id',
+  new CourseController().deleteCourseById
 )
 
 /** 
  * @openapi
- * '/course/edit-course-by-code':
+ * '/course/edit-course-by-id':
  *  put:
  *     tags:
  *     - Course
- *     summary: Edit a course by code
+ *     summary: Edit a course by id
  *     parameters:
  *       - in: query
- *         name: codeToEdit
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The unique code of the course to be edited
+ *         description: The unique id of the course to be edited
  *     requestBody:
  *       required: true
  *       content:
@@ -286,8 +285,8 @@ coursesRoutes.delete(
  *                   example: "An unexpected error occurred"
  */
 coursesRoutes.put(
-  '/course/edit-course-by-code',
-  new CourseController().editCourseByCode
+  '/course/edit-course-by-id',
+  new CourseController().editCourseById
 )
 
 /** 
@@ -296,14 +295,14 @@ coursesRoutes.put(
  *  patch:
  *     tags:
  *     - Course
- *     summary: Update only the name of a course by code
+ *     summary: Update only the name of a course by id
  *     parameters:
  *       - in: query
- *         name: codeToEdit
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The unique code of the course to be updated
+ *         description: The unique id of the course to be updated
  *     requestBody:
  *       required: true
  *       content:

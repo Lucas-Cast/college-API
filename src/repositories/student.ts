@@ -1,8 +1,6 @@
-import database from '../database'
 import { Course } from '../models/course'
 import { Student } from '../models/student'
 
-let studentsTable = database.students
 
 export default class StudentRepository {
   addStudent({ name, enrollment, course }: Student): Promise<string> {
