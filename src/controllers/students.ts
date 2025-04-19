@@ -3,19 +3,18 @@ import StudentService from '../services/students'
 
 export default class StudentController {
   async addStudent(req: Request, res: Response) {
-    const { name, enrollment, course } = req.body
+    const { name, enrollment, coursesIds } = req.body
 
     await new StudentService()
-      .addStudent({ name, enrollment, course })
+      .addStudent({ name, enrollment, coursesIds })
       .then(msg => res.status(200).send(msg))
       .catch(err => res.status(400).send(err))
   }
 
-  async getStudentByEnrollment(req: Request, res: Response) {
-    const { enrollment } = req.query
-
+  async getStudentById(req: Request, res: Response) {
+    const { id } = req.query
     await new StudentService()
-      .getStudentByEnrollment(enrollment as string)
+      .getStudentById(id as string)
       .then(msg => res.status(200).send(msg))
       .catch(err => res.status(400).send(err))
   }
@@ -27,30 +26,30 @@ export default class StudentController {
       .catch(err => res.status(400).send(err))
   }
 
-  async deleteStudentByEnrollment(req: Request, res: Response) {
-    const { enrollment } = req.query
+  async deleteStudentById(req: Request, res: Response) {
+    const { id } = req.query
 
     await new StudentService()
-      .deleteStudentByEnrollment(enrollment as string)
+      .deleteStudentById(id as string)
+      .then(result => res.status(200).send(result))
+      .catch(err => res.status(400).send(err))
+  }
+
+  async editStudentById(req: Request, res: Response) {
+    const { name, enrollment, coursesIds } = req.body
+    const { id } = req.query
+
+    await new StudentService()
+      .editStudentById({ name, enrollment, coursesIds }, id as string)
       .then(msg => res.status(200).send(msg))
       .catch(err => res.status(400).send(err))
   }
 
-  async editStudentByEnrollment(req: Request, res: Response) {
-    const { name, enrollment, course } = req.body
-    const { enrollmentToEdit } = req.query
-
+  async patchStudentName(req: Request, res: Response) {
+    const { name } = req.body
+    const { id } = req.query
     await new StudentService()
-      .editStudentByEnrollment({ name, enrollment, course }, enrollmentToEdit as string)
-      .then(msg => res.status(200).send(msg))
-      .catch(err => res.status(400).send(err))
-  }
-
-  async patchStudentCourse(req: Request, res: Response) {
-    const { course } = req.body
-    const { enrollmentToEdit } = req.query
-    await new StudentService()
-      .patchStudentCourse(enrollmentToEdit as string, course)
+      .patchStudentName(id as string, name)
       .then(msg => res.status(200).send(msg))
       .catch(err => res.status(400).send(err))
   }

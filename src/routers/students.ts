@@ -2,6 +2,7 @@ import { Router } from 'express'
 import StudentController from '../controllers/students'
 
 const studentRoutes = Router()
+
 /**
  * @openapi
  * '/student/add-student':
@@ -18,7 +19,6 @@ const studentRoutes = Router()
  *             required:
  *               - name
  *               - enrollment
- *               - course
  *             properties:
  *               name:
  *                 type: string
@@ -26,22 +26,11 @@ const studentRoutes = Router()
  *               enrollment:
  *                 type: string
  *                 example: "9876SINF"
- *               course:
- *                 type: object
- *                 required:
- *                   - code
- *                   - name
- *                   - syllabus
- *                 properties:
- *                   code:
- *                     type: string
- *                     example: "12345"
- *                   name:
- *                     type: string
- *                     example: "sistemas de informação"
- *                   syllabus:
- *                     type: string
- *                     example: "SI"
+ *               coursesIds:
+ *                 type: array
+ *                 items:
+ *                   type: number
+ *                 example: [1, 2]
  *     responses:
  *       200:
  *         description: Student added successfully!
@@ -68,19 +57,19 @@ studentRoutes.post('/student/add-student', new StudentController().addStudent)
 
 /**
  * @openapi
- * '/student/get-student-by-enrollment':
+ * '/student/get-student-by-id':
  *  get:
  *     tags:
  *     - Student
- *     summary: Get a student by enrollment number
+ *     summary: Get a student by ID
  *     parameters:
  *       - in: query
- *         name: enrollment
+ *         name: id
  *         required: true
  *         schema:
- *           type: string
- *         description: Student's enrollment number
- *         example: "1234SINF"
+ *           type: number
+ *         description: Student's ID
+ *         example: "1"
  *     responses:
  *       200:
  *         description: Student found successfully
@@ -91,22 +80,12 @@ studentRoutes.post('/student/add-student', new StudentController().addStudent)
  *               properties:
  *                 name:
  *                   type: string
- *                   example: "string"
  *                 enrollment:
  *                   type: string
- *                   example: "string"
- *                 course:
- *                   type: object
- *                   properties:
- *                     name:
- *                       type: string
- *                       example: "string"
- *                     code:
- *                       type: string
- *                       example: "string"
- *                     syllabus:
- *                       type: string
- *                       example: "string"
+ *                 coursesIds:
+ *                   type: array
+ *                   items:
+ *                     type: number
  *       400:
  *         description: Bad request
  *         content:
@@ -116,7 +95,7 @@ studentRoutes.post('/student/add-student', new StudentController().addStudent)
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Enrollment number is required"
+ *                   example: "ID is required"
  *       404:
  *         description: Student not found
  *         content:
@@ -129,8 +108,8 @@ studentRoutes.post('/student/add-student', new StudentController().addStudent)
  *                   example: "Student not found"
  */
 studentRoutes.get(
-  '/student/get-student-by-enrollment',
-  new StudentController().getStudentByEnrollment
+  '/student/get-student-by-id',
+  new StudentController().getStudentById
 )
 
 /**
@@ -154,15 +133,10 @@ studentRoutes.get(
  *                     type: string
  *                   enrollment:
  *                     type: string
- *                   course:
- *                     type: object
- *                     properties:
- *                       name:
- *                         type: string
- *                       code:
- *                         type: string
- *                       syllabus:
- *                         type: string
+ *                   coursesIds:
+ *                     type: array
+ *                     items:
+ *                       type: number
  *       500:
  *         description: Internal server error
  *         content:
@@ -177,19 +151,19 @@ studentRoutes.get('/student/get-students', new StudentController().getStudents)
 
 /**
  * @openapi
- * '/student/delete-student-by-enrollment':
+ * '/student/delete-student-by-id':
  *  delete:
  *     tags:
  *     - Student
- *     summary: Delete a student by enrollment number and return remaining students
+ *     summary: Delete a student by ID and return remaining students
  *     parameters:
  *       - in: query
- *         name: enrollmentToEdit
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: Student's enrollment number to be deleted
- *         example: "1234SINF"
+ *         description: Student's ID to be deleted
+ *         example: "1234"
  *     responses:
  *       200:
  *         description: Student deleted successfully and list of remaining students
@@ -204,15 +178,10 @@ studentRoutes.get('/student/get-students', new StudentController().getStudents)
  *                     type: string
  *                   enrollment:
  *                     type: string
- *                   course:
- *                     type: object
- *                     properties:
- *                       name:
- *                         type: string
- *                       code:
- *                         type: string
- *                       syllabus:
- *                         type: string
+ *                   coursesIds:
+ *                     type: array
+ *                     items:
+ *                       type: number
  *       400:
  *         description: Bad request
  *         content:
@@ -233,25 +202,25 @@ studentRoutes.get('/student/get-students', new StudentController().getStudents)
  *                   type: string
  */
 studentRoutes.delete(
-  '/student/delete-student-by-enrollment',
-  new StudentController().deleteStudentByEnrollment
+  '/student/delete-student-by-id',
+  new StudentController().deleteStudentById
 )
 
 /**
  * @openapi
- * '/student/edit-student-by-enrollment':
+ * '/student/edit-student-by-id':
  *  put:
  *     tags:
  *     - Student
- *     summary: Edit a student by enrollment number
+ *     summary: Edit a student by ID
  *     parameters:
  *       - in: query
- *         name: enrollmentToEdit
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: Enrollment number of the student to be edited
- *         example: "1234SINF"
+ *         description: ID of the student to be edited
+ *         example: "1234"
  *     requestBody:
  *       required: true
  *       content:
@@ -263,15 +232,10 @@ studentRoutes.delete(
  *                 type: string
  *               enrollment:
  *                 type: string
- *               course:
- *                 type: object
- *                 properties:
- *                   name:
- *                     type: string
- *                   code:
- *                     type: string
- *                   syllabus:
- *                     type: string
+ *               coursesIds:
+ *                 type: array
+ *                 items:
+ *                   type: number
  *     responses:
  *       200:
  *         description: Student successfully updated
@@ -284,15 +248,10 @@ studentRoutes.delete(
  *                   type: string
  *                 enrollment:
  *                   type: string
- *                 course:
- *                   type: object
- *                   properties:
- *                     name:
- *                       type: string
- *                     code:
- *                       type: string
- *                     syllabus:
- *                       type: string
+ *                 coursesIds:
+ *                   type: array
+ *                   items:
+ *                     type: number
  *       400:
  *         description: Bad request
  *         content:
@@ -313,25 +272,25 @@ studentRoutes.delete(
  *                   type: string
  */
 studentRoutes.put(
-  '/student/edit-student-by-enrollment',
-  new StudentController().editStudentByEnrollment
+  '/student/edit-student-by-id',
+  new StudentController().editStudentById
 )
 
 /**
  * @openapi
- * '/student/patch-student-course':
+ * '/student/patch-student-name':
  *  patch:
  *     tags:
  *     - Student
- *     summary: Update only the course information of a student
+ *     summary: Update only the name of a student
  *     parameters:
  *       - in: query
- *         name: enrollmentToEdit
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: Enrollment number of the student to update
- *         example: "1234SINF"
+ *         description: ID of the student to update
+ *         example: "1234"
  *     requestBody:
  *       required: true
  *       content:
@@ -339,24 +298,13 @@ studentRoutes.put(
  *           schema:
  *             type: object
  *             required:
- *               - course
+ *               - name
  *             properties:
- *               course:
- *                 type: object
- *                 required:
- *                   - name
- *                   - code
- *                   - syllabus
- *                 properties:
- *                   name:
- *                     type: string
- *                   code:
- *                     type: string
- *                   syllabus:
- *                     type: string
+ *               name:
+ *                 type: string
  *     responses:
  *       200:
- *         description: Student course successfully updated
+ *         description: Student name successfully updated
  *         content:
  *           application/json:
  *             schema:
@@ -366,15 +314,10 @@ studentRoutes.put(
  *                   type: string
  *                 enrollment:
  *                   type: string
- *                 course:
- *                   type: object
- *                   properties:
- *                     name:
- *                       type: string
- *                     code:
- *                       type: string
- *                     syllabus:
- *                       type: string
+ *                 coursesIds:
+ *                   type: array
+ *                   items:
+ *                     type: number
  *       400:
  *         description: Bad request
  *         content:
@@ -394,6 +337,6 @@ studentRoutes.put(
  *                 error:
  *                   type: string
  */
-studentRoutes.patch('/student/patch-student-course', new StudentController().patchStudentCourse)
+studentRoutes.patch('/student/patch-student-name', new StudentController().patchStudentName)
 
 export default studentRoutes

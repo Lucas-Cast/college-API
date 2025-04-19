@@ -1,45 +1,47 @@
-import { Course } from '../models/course'
-import { Student } from '../models/student'
+import { Student, StudentRequest } from '../models/student'
 import StudentRepository from '../repositories/student'
 
 export default class StudentService {
-  async addStudent({ name, enrollment, course }: Student): Promise<string> {
-    !name && new Error('A name must be set')
-    !enrollment && new Error('A enrollment must be set')
-    !course && new Error('A course must be set')
+  async addStudent({ name, enrollment, coursesIds }: StudentRequest): Promise<string> {
+    if (!name) throw 'A name must be set'
+    if (!enrollment) throw 'A enrollment must be set'
+    if (!coursesIds) throw 'A course must be set'
 
-    return await new StudentRepository().addStudent({ name, enrollment, course })
+    return await new StudentRepository().addStudent({ name, enrollment, coursesIds })
   }
 
-  async getStudentByEnrollment(enrollment: string): Promise<Student> {
-    !enrollment && new Error('A enrollment must be set')
+  async getStudentById(id: string): Promise<Student> {
+    if (!id) throw 'A id must be set'
 
-    return await new StudentRepository().getStudentByEnrollment(enrollment)
+    return await new StudentRepository().getStudentById(id)
   }
 
   async getStudents(): Promise<Student[]> {
     return await new StudentRepository().getStudents()
   }
 
-  async deleteStudentByEnrollment(enrollment: string): Promise<Student[]> {
-    !enrollment && new Error('A enrollment must be set')
+  async deleteStudentById(id: string): Promise<Student[]> {
+    if (!id) throw 'A id must be set'
 
-    return await new StudentRepository().deleteStudentByEnrollment(enrollment)
+    return await new StudentRepository().deleteStudentById(id)
   }
 
-  async editStudentByEnrollment({ name, enrollment, course }: Student, enrollmentToEdit: string): Promise<Student[]> {
-    !name && new Error('A name must be set')
-    !enrollmentToEdit && new Error('A enrollment to edit must be set')
-    !course && new Error('A course must be set')
-    !enrollment && new Error('A enrollment must be set')
+  async editStudentById(
+    { name, enrollment, coursesIds }: StudentRequest,
+    id: string
+  ): Promise<Student> {
+    if (!name) throw 'A name must be set'
+    if (!id) throw 'A id to edit must be set'
+    if (!coursesIds) throw 'A course must be set'
+    if (!enrollment) throw 'A enrollment must be set'
 
-    return await new StudentRepository().editStudentByEnrollment({ name, enrollment, course }, enrollmentToEdit)
+    return await new StudentRepository().editStudentById({ name, enrollment, coursesIds }, id)
   }
 
-  async patchStudentCourse(enrollmentToEdit: string, course: Course): Promise<Student[]> {
-    !enrollmentToEdit && new Error('A enrollment must be set')
-    !course && new Error('A course must be set')
+  async patchStudentName(id: string, name: string): Promise<Student> {
+    if (!id) throw 'A id to edit must be set'
+    if (!name) throw 'A name must be set'
 
-    return await new StudentRepository().patchStudentCourse(enrollmentToEdit, course)
+    return await new StudentRepository().patchStudentName(id, name)
   }
 }
