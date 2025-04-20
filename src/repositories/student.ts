@@ -1,6 +1,6 @@
 import { Course } from '../models/course'
 import { StudentRequest, Student } from '../models/student'
-import knex from '../../knexfile'
+import knex from '../../sequelize'
 import { StudentCourse } from '../models/studentCourse'
 
 export default class StudentRepository {

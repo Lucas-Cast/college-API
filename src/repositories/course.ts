@@ -1,5 +1,5 @@
 import { Course } from '../models/course'
-import knex from '../../knexfile'
+import knex from '../../sequelize'
 
 export default class CourseRepository {
   async addCourse({ name, code, syllabus }: Course): Promise<string> {
