@@ -30,7 +30,7 @@ class Student extends Model<StudentAttributes> implements StudentAttributes {
 
   public readonly courses?: Course[];
 
-  public addCourse!: (course: Course, options?: any) => Promise<any>;
+  public addCourse!: (course: Course[], options?: any) => Promise<any>;
   public getCourses!: (options?: any) => Promise<Course[]>;
   public setCourses!: (courses: Course[], options?: any) => Promise<any>;
   public removeCourse!: (course: Course, options?: any) => Promise<any>;

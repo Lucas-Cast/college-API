@@ -3,6 +3,7 @@ import { settings } from '../../settings'
 import { Express } from 'express'
 import '../models/student'
 import '../models/course'
+import '../models/studentCourse'
 
 export async function startServer(app: Express) {
   try {

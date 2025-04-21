@@ -1,22 +1,24 @@
-import Course, { CourseAttributes } from "./course"
-import Student from "./student";
+import Course, { CourseAttributes } from './course'
+import Student from './student'
 
 export interface StudentCourse {
-    name: string
-    enrollment: string
-    course: CourseAttributes
+  name: string
+  enrollment: string
+  course: CourseAttributes
 }
 
-Student.belongsToMany(Course, { 
-    through: 'StudentCourses', 
-    foreignKey: 'studentId',
-    otherKey: 'courseId',
-    as: 'courses'
-  });
-  
-  Course.belongsToMany(Student, { 
-    through: 'StudentCourses', 
-    foreignKey: 'courseId',
-    otherKey: 'studentId',
-    as: 'students'
-  });
+Student.belongsToMany(Course, {
+  through: 'student_courses',
+  foreignKey: 'studentId',
+  otherKey: 'courseId',
+  as: 'courses',
+  onDelete: 'CASCADE',
+})
+
+Course.belongsToMany(Student, {
+  through: 'student_courses',
+  foreignKey: 'courseId',
+  otherKey: 'studentId',
+  as: 'students',
+  onDelete: 'CASCADE',
+})
